@@ -1,10 +1,10 @@
 from fastapi import FastAPI, HTTPException, status
-from .database import SessionLocal, create_tables 
+from .database import SessionLocal, create_tables, engine
 from . import models
-from sqlalchemy import Engine, select
+from sqlalchemy import Engine, select, UUID
 from .models import User
 from .schema import UserCreate, UserUpdate, UserResponse
-
+import uuid
 
 app = FastAPI()
 
@@ -12,6 +12,7 @@ app = FastAPI()
 #Crear las tablas al iniciar la aplicación
 @app.on_event("startup")#Decoradores
 def on_startup():
+    #User.__table__.drop(engine)  Borrar la tabla usuario si hace falta
     create_tables()
 
 #Añadir nuevos usuarios  CRUD - Create

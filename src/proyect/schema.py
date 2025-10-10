@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+import uuid
 
 #Validación de datos para la creación de usuario
 class UserCreate(BaseModel): 
