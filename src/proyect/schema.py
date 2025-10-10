@@ -16,7 +16,7 @@ class UserUpdate(BaseModel):
 
 #Validación de UserResponse, la respuesta que se envía al cliente
 class UserResponse(BaseModel): #Tambien se puede llamar UserOut
-    id: int 
+    id: str 
     username: str
     email: EmailStr
     phone: str

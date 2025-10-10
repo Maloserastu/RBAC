@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
-from .database import SessionLocal, create_tables
+from .database import SessionLocal, create_tables 
 from . import models
-from sqlalchemy import select
+from sqlalchemy import Engine, select
 from .models import User
 from .schema import UserCreate, UserUpdate, UserResponse
 
@@ -34,7 +34,9 @@ def create_user( user : UserCreate ):   #Validar con Pydantic el esquema UserCre
 @app.get("/users/read_users_by_username")
 def read_users(username: str):
     with SessionLocal() as session:
-        user = session.query(User).filter(User.username == username).first()
+        if session.query(User).filter(User.username == username).first():
+            user = session.query(User).filter(User.username == username).first()
+        else: raise HTTPException(status_code=400, detail="El nombre del usuario introducido no existe." )    
         return user
 
 #Leer los usuarios por id CRUD - Read
