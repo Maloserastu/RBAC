@@ -5,6 +5,7 @@ from sqlalchemy import Engine, select, UUID
 from .models import User
 from .schema import UserCreate, UserUpdate, UserResponse
 from uuid import UUID
+from .auth import hash_password
 
 app = FastAPI()
 
@@ -19,7 +20,8 @@ def on_startup():
 @app.post("/users/create_user", status_code=status.HTTP_201_CREATED)
 def create_user( user : UserCreate ):   #Validar con Pydantic el esquema UserCreate
     with SessionLocal() as session:
-        new_user = User(username=user.username, email=user.email, phone=user.phone)
+        new_user = User(username=user.username, email=user.email, phone=user.phone, hashed_password=hash_password(user.password))
+        #se guarda la contraseña hasheada
         if session.query(User).filter((User.username == user.username)).first():
             raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
         if session.query(User).filter((User.email == user.email)).first():
@@ -63,11 +65,11 @@ def update_user_by_id(user_id: int, updated_user : UserUpdate):#Se busca el usua
        #Se podría o debería dividir en dos para que muestre el usuario antes y después de actualizar y asi poder ver los cambios
         
         if updated_user.username is not None:
-            user.username = updated_user.username
+            user.username = updated_user.username # type: ignore
         if updated_user.email is not None:
-            user.email = updated_user.email
+            user.email = updated_user.email # type: ignore
         if updated_user.phone is not None:
-            user.phone = updated_user.phone
+            user.phone = updated_user.phone # type: ignore
         #El update_at se actualiza automáticamente gracias a que esta en el modelo
         session.commit()
         session.refresh(user)

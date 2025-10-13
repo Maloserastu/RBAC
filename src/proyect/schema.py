@@ -7,6 +7,7 @@ from uuid import UUID
 #Validación de datos para la creación de usuario
 class UserCreate(BaseModel): 
     username: str
+    password : str 
     email: EmailStr
     phone: str
 

@@ -15,8 +15,8 @@ class User (Base):
     
     id  = Column(SQLUUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     #as_uuid=True permite que SQLAlchemy trabaje  directamente con objetos uuid.UUID en Python, en vez de convertirlos a cadenas
-    
     username = Column(String, unique=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     phone = Column(String, unique=True, nullable=False)    
     created_at = Column(DateTime, default=datetime.now) #Campos de auditoría
