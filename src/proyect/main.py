@@ -4,7 +4,7 @@ from . import models
 from sqlalchemy import Engine, select, UUID
 from .models import User
 from .schema import UserCreate, UserUpdate, UserResponse
-import uuid
+from uuid import UUID
 
 app = FastAPI()
 
@@ -32,7 +32,7 @@ def create_user( user : UserCreate ):   #Validar con Pydantic el esquema UserCre
         return new_user
 
 #Leer los usuarios por nombre CRUD - Read
-@app.get("/users/read_users_by_username")
+@app.get("/users/read_users_by_username")   
 def read_users(username: str):
     with SessionLocal() as session:
         if session.query(User).filter(User.username == username).first():
@@ -41,8 +41,8 @@ def read_users(username: str):
         return user
 
 #Leer los usuarios por id CRUD - Read
-@app.get("/users/read_users_by_id")
-def read_users_by_id(user_id: int):
+@app.get("/users/read_users_by_id", response_model=UserResponse)
+def read_users_by_id(user_id: UUID):
     with SessionLocal() as session:
         user = session.get(User,user_id)
         return user

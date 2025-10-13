@@ -2,6 +2,7 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 import uuid
+from uuid import UUID
 
 #Validación de datos para la creación de usuario
 class UserCreate(BaseModel): 
@@ -17,7 +18,7 @@ class UserUpdate(BaseModel):
 
 #Validación de UserResponse, la respuesta que se envía al cliente
 class UserResponse(BaseModel): #Tambien se puede llamar UserOut
-    id: str 
+    id: UUID
     username: str
     email: EmailStr
     phone: str
