@@ -20,9 +20,11 @@ Creación de URLs seguras
 """
 
 from fastapi import Depends, HTTPException
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from .auth import create_acces_token, hash_password, verify_password, get_current_user
 
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @app.post("/token")
 def login(form_data: OAuth2PasswordRequestForm = Depends()): #depends para recibir el username y password desde fastapi
