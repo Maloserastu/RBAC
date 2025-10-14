@@ -2,9 +2,16 @@ from passlib.context import CryptContext #libreria usada para hashear y verifica
 from jose import JWTError,jwt #Se usará para generar tokens de acceso
 from datetime import datetime, timedelta #Utilidades para hacer un seguimiento de los tokens
 
+from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends,HTTPException
+
+
 pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 
 def hash_password(password : str) -> str:
+    
+    print(f"Password recibido: {password}")
+
     return pwd_context.hash(password) #Devuelve la contraseña encryptada con bcrypt
 
 def verify_password(normal_password : str, hashed_password :str) -> bool:
@@ -23,3 +30,16 @@ def create_acces_token(data :dict):
     expire=datetime.utcnow()+ timedelta(minutes= ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")#Crea una instancia del esquema que permite saber la ruta de obtención del token
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM]) 
+        user_id: str = payload.get("sub") 
+        # Se estrae el campo sub o subject que deberia tener el user id, puede ser NONE si no se inclye, por eso el error y el if 
+        if user_id is None:
+            raise HTTPException(status_code=401, detail="Token inválido")
+        return user_id
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Token inválido o expirado")
