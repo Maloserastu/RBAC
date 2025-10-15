@@ -24,14 +24,26 @@ from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from .auth import create_acces_token, hash_password, verify_password, get_current_user
 
+#tags para ordenar las rutas
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") 
+tags_metadata = [
+    {
+        "name" : "login",   
+        "description": "login, register"
+    },
+    {
+        "name": "crud",
+        "description": "crear, leer, actualizar y borrar",
+    }
+]
 
-@app.post("/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")#crea el authorize 
+
+@app.post("/login", tags=["login"])
 def login(form_data: OAuth2PasswordRequestForm = Depends()): #depends para recibir el username y password desde fastapi
     with SessionLocal() as session:
         user = session.query(User).filter(User.username == form_data.username).first()
-        if not user or not verify_password(form_data.password, user.hashed_password):
+        if not user or not verify_password(form_data.password, str(user.hashed_password)):
             raise HTTPException(status_code=401, detail="Credenciales incorrectas")
     access_token = create_acces_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
@@ -39,7 +51,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()): #depends para recib
 
 
 #Añadir nuevos usuarios  CRUD - Create
-@app.post("/users/create_user", status_code=status.HTTP_201_CREATED)
+@app.post("/users/create_user", status_code=status.HTTP_201_CREATED, tags=["crud"])
 def create_user( user : UserCreate ):   #Validar con Pydantic el esquema UserCreate
     with SessionLocal() as session:
         new_user = User(username=user.username, email=user.email, phone=user.phone, hashed_password=hash_password(user.password))
@@ -56,7 +68,7 @@ def create_user( user : UserCreate ):   #Validar con Pydantic el esquema UserCre
         return new_user
 
 #Leer los usuarios por nombre CRUD - Read
-@app.get("/users/read_users_by_username")   
+@app.get("/users/read_users_by_username", tags=["crud"])   
 def read_users(username: str, current_user: str = Depends(get_current_user)):
     with SessionLocal() as session:
         if session.query(User).filter(User.username == username).first():
@@ -65,7 +77,7 @@ def read_users(username: str, current_user: str = Depends(get_current_user)):
         return user
 
 #Leer los usuarios por id CRUD - Read
-@app.get("/users/read_users_by_id", response_model=UserResponse)
+@app.get("/users/read_users_by_id", response_model=UserResponse, tags=["crud"])
 def read_users_by_id(user_id: UUID, current_user: str = Depends(get_current_user)):
     with SessionLocal() as session:
         user = session.get(User,user_id)
@@ -74,7 +86,7 @@ def read_users_by_id(user_id: UUID, current_user: str = Depends(get_current_user
 
 
 #Actualizar usuarios por id CRUD - UPDATE
-@app.put("/users/update_user_by_id/{user_id}", response_model=UserResponse)#Se usa response_model para definir el esquema de respuesta
+@app.put("/users/update_user_by_id/{user_id}", response_model=UserResponse, tags=["crud"])#Se usa response_model para definir el esquema de respuesta
 #{user_id} es una variable que coje el valor de la url y posteriormente se usa en la función
 def update_user_by_id(user_id: int, updated_user : UserUpdate, current_user: str = Depends(get_current_user)):#Se busca el usuario por id y se actualiza con los datos del esquema UserUpdate
     with SessionLocal() as session:
@@ -100,7 +112,7 @@ def update_user_by_id(user_id: int, updated_user : UserUpdate, current_user: str
 
         
 #Eliminar usuarios por id CRUD - DELETE
-@app.delete("/users/delete_user_by_id/{user_id}", status_code=status.HTTP_204_NO_CONTENT)#el user_id se pasa por la url
+@app.delete("/users/delete_user_by_id/{user_id}", status_code=status.HTTP_204_NO_CONTENT, tags=["crud"])#el user_id se pasa por la url
 def delete_user_by_id(user_id: int, current_user: str = Depends(get_current_user)): #el user_id se recibe como parámetro en la función y con el se busca y elimina el usuario
     with SessionLocal() as session:
         user = session.get(User,user_id)
