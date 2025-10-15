@@ -47,6 +47,31 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()): #depends para recib
             raise HTTPException(status_code=401, detail="Credenciales incorrectas")
     access_token = create_acces_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
+ 
+
+@app.post("/register", status_code=status.HTTP_201_CREATED, tags=["login"], response_model=UserResponse)
+def register(user: UserCreate):
+    with SessionLocal() as session:
+        # Validar duplicados
+        if session.query(User).filter(User.username == user.username).first():
+            raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
+        if session.query(User).filter(User.email == user.email).first():
+            raise HTTPException(status_code=400, detail="El email ya existe")
+        if session.query(User).filter(User.phone == user.phone).first():
+            raise HTTPException(status_code=400, detail="El número de teléfono ya existe")
+
+        # Crear usuario con contraseña hasheada
+        new_user = User(
+            username=user.username,
+            email=user.email,
+            phone=user.phone,
+            hashed_password=hash_password(user.password)
+        )
+        session.add(new_user)
+        session.commit()
+        session.refresh(new_user)
+        return new_user
+
 
 
 
