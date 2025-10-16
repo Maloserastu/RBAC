@@ -5,6 +5,9 @@ from datetime import datetime, timedelta #Utilidades para hacer un seguimiento d
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends,HTTPException
 
+from .database import SessionLocal
+from .models import User
+
 
 pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 
@@ -40,6 +43,16 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         # Se estrae el campo sub o subject que deberia tener el user id, puede ser NONE si no se inclye, por eso el error y el if 
         if user_id is None:
             raise HTTPException(status_code=401, detail="Token inválido")
-        return user_id
     except JWTError:
         raise HTTPException(status_code=401, detail="Token inválido o expirado")
+    
+       
+# Buscar el usuario en la base de datos
+    with SessionLocal() as db:
+        user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+        return user
+
+
+    
