@@ -55,7 +55,7 @@ FIN
 
 #Codigo que bloquea acceso a las rutas sin token
 
-@app.get("/protected-data")
+@app.get("/protected-data", tags=["login"])
 def get_protected_data(current_user: User = Depends(get_current_user)):
     return {"username":current_user.username }
 #
