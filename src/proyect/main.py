@@ -37,6 +37,28 @@ tags_metadata = [
     }
 ]
 
+"""
+CODIGO NECESARIO DE FASTAPI PARA PERMITIR PETICIONES AL FRONTEND
+"""
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # O mejor, especifica tu frontend: ["http://localhost:5173"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+"""
+FIN
+"""
+
+#Codigo que bloquea acceso a las rutas sin token
+
+@app.get("/protected-data", tags=["login"])
+def get_protected_data(current_user: User = Depends(get_current_user)):
+    return {"username":current_user.username }
+#
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")#crea el authorize 
 
 @app.post("/login", tags=["login"])
@@ -45,7 +67,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()): #depends para recib
         user = session.query(User).filter(User.username == form_data.username).first()
         if not user or not verify_password(form_data.password, str(user.hashed_password)):
             raise HTTPException(status_code=401, detail="Credenciales incorrectas")
-    access_token = create_acces_token(data={"sub": str(user.id)})
+    access_token = create_acces_token(data={"sub": str(user.id), "username": user.username})
     return {"access_token": access_token, "token_type": "bearer"}
  
 
