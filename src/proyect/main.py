@@ -109,6 +109,9 @@ def create_user( user : UserCreate ):   #Validar con Pydantic el esquema UserCre
             raise HTTPException(status_code=400, detail="El email que se quiere crear ya existe.")
         if session.query(User).filter((User.phone == user.phone)).first():
             raise HTTPException(status_code=400, detail="El número de teléfono ingresado ya existe para otro usuario.")
+        if len(user.phone) >= 9:
+            raise HTTPException(status_code=400, detail="El teléfono debe tener menos de 9 dígitos")
+
         session.add(new_user)
         session.commit()
         session.refresh(new_user)
