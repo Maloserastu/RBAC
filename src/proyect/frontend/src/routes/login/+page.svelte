@@ -3,6 +3,13 @@
   let username = '';
   let password = '';
   let error = '';
+  let showPassword = false; //contraseña comienza escondida
+
+
+  function togglePassword() {  //funcion para mostrar
+    showPassword = !showPassword;
+  }
+
 
   async function handleLogin() {//funcion que se ejecuta al enviar el formulario, se inicia con "" para borrar mensajes anteriores
     error = '';
@@ -40,7 +47,11 @@
 <form on:submit|preventDefault={handleLogin}>  <!-- Evita que se recarge la pagina y llama a la funcion handlelogin-->
     <h1>Login</h1>
   <input type="text" placeholder="Username" bind:value={username} required />
-  <input type="password" placeholder="Password" bind:value={password} required />    
+  <input type={showPassword ? "text" : "password"} placeholder="Password" bind:value={password} required /> 
+  <!--pregunta a la funcion mostrar contraseña si debe ser mostrada o no-->
+  
+
+    
   <button type="submit">Entrar</button>
   <p>¿No tienes cuenta? <a href="/register">Registrarse</a></p>
 </form>

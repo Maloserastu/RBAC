@@ -1,5 +1,6 @@
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from typing_extensions import Annotated
+from pydantic import BaseModel, EmailStr, StringConstraints
 from datetime import datetime
 import uuid
 from uuid import UUID
@@ -9,7 +10,7 @@ class UserCreate(BaseModel):
     username: str
     password : str 
     email: EmailStr
-    phone: str
+    phone:   Annotated[str, StringConstraints(max_length=9)]
 
 #Validación de datos para la actualización de usuario
 class UserUpdate(BaseModel):

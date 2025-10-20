@@ -6,6 +6,11 @@
   let phone = '';
   let error = '';
 
+  //Repeticion show password
+  let showPassword= false;
+  function togglePassword() {  //funcion para mostrar
+    showPassword = !showPassword;
+  }
   async function handleRegister() {
     error = '';
     try {
@@ -33,9 +38,10 @@
     <form on:submit|preventDefault={handleRegister}>
       <h1>Registro</h1>
       <input type="text" placeholder="Username" bind:value={username} required />
-      <input type="password" placeholder="Password" bind:value={password} required /> 
       <input type="email" placeholder="Email" bind:value={email} required />
       <input type="text" placeholder="Phone" bind:value={phone} required />
+      <input type={showPassword ? "text" : "password"} placeholder="Password" bind:value={password} required />
+      <input type={showPassword ? "text" : "password"} placeholder="RepeatPassword" bind:value={password} required />
       <button type="submit">Registrarse</button>
       <p>¿Ya tienes cuenta?<a href="/login "> Inicia sesión</a></p>
       {#if error}<p style="color:red">{error}</p>{/if}
