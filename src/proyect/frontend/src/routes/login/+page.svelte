@@ -36,26 +36,81 @@
 
 <!-- Formulario del login-->
 
-
+<div>
 <form on:submit|preventDefault={handleLogin}>  <!-- Evita que se recarge la pagina y llama a la funcion handlelogin-->
     <h1>Login</h1>
   <input type="text" placeholder="Username" bind:value={username} required />
-  <input type="password" placeholder="Password" bind:value={password} required />
+  <input type="password" placeholder="Password" bind:value={password} required />    
   <button type="submit">Entrar</button>
   <p>¿No tienes cuenta? <a href="/register">Registrarse</a></p>
 </form>
-
+</div>
 {#if error}
   <p style="color:red">{error}</p>
 {/if}
 
 
 <style> 
-    form{
+/*Css global(body)*/
+
+    :global(body){
+        padding: 0px;
+        margin: 0px;
+        background-color: rgba(53, 134, 134, 0.33);
+    }
+
+
+    div{
+      background-color: rgba(111, 111, 12, 0.218);
         text-align: center;
-        padding: 1px;
-        border: 3px solid rgb(5, 5, 5);
-        font-family: 'Courier New', Courier, monospace;
+        padding: 30px;
+        font-family: 'Courier New', Courier, monospace;        
+        position:absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;        
+        border: 4px double rgb(5, 5, 5);
+        width: auto;
+        height: auto;      
+        
     }   
+div button{
+  background-color: rgba(75, 82, 175, 0.66);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  border: 3px solid black;
+  padding: 5px  30px;
+}
+
+    /*Css formulario*/
+    form {
+  display: flex;
+  flex-direction: column; 
+  gap: 10px; 
+  align-items: center; /* Centra horizontalmente */
+}
+
+form input{
+
+  font-weight: bold;
+  padding: 5px;
+  font-size: large;
+}
+form h1{
+  font-size: 2em;
+}
+form p{
+  font-family: 'Courier New', Courier, monospace;
+
+}
+form a{
+  text-decoration: none;
+  color: teal;
+}
+
+
+
+
+
 
 </style>

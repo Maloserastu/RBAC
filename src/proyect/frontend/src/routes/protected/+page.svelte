@@ -37,10 +37,45 @@
     goto('/login'); // ✅ Redirige al login
   }
 </script>
-
+<div class="message">
 {#if loading}
   <p>Cargando...</p>
 {:else}
   <h1>Bienvenido, {username}</h1>
   <button on:click={handleLogout}>Cerrar sesión</button>
 {/if}
+</div>
+
+<style>
+
+/*Css global(body)*/
+
+    :global(body){
+        padding: 0px;
+        margin: 0px;
+        background-color: rgba(53, 134, 134, 0.33);
+    }
+
+    /*Mensaje de inicio*/
+    p,h1{
+      font-family: 'Courier New', Courier, monospace;
+      font-size: large;
+    }
+
+    button{
+      background-color: rgba(75, 82, 175, 0.66);
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      border: 3px solid black;
+      padding: 5px  30px;
+    }
+    .message {
+      display: flex;
+      justify-content: center; 
+      align-items: center;     
+      height: 100vh;           
+      flex-direction: column;  
+    }
+
+
+</style>
