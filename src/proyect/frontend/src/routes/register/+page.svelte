@@ -29,13 +29,79 @@
   }
 </script>
 
-<form on:submit|preventDefault={handleRegister}>
-  <h1>Registro</h1>
-  <input type="text" placeholder="Username" bind:value={username} required />
-  <input type="password" placeholder="Password" bind:value={password} required />
-  <input type="email" placeholder="Email" bind:value={email} required />
-  <input type="text" placeholder="Phone" bind:value={phone} required />
-  <button type="submit">Registrarse</button>
-  <p>¿Ya tienes cuenta?<a href="/login "> Inicia sesión</a></p>
-  {#if error}<p style="color:red">{error}</p>{/if}
-</form>
+  <div>
+    <form on:submit|preventDefault={handleRegister}>
+      <h1>Registro</h1>
+      <input type="text" placeholder="Username" bind:value={username} required />
+      <input type="password" placeholder="Password" bind:value={password} required /> 
+      <input type="email" placeholder="Email" bind:value={email} required />
+      <input type="text" placeholder="Phone" bind:value={phone} required />
+      <button type="submit">Registrarse</button>
+      <p>¿Ya tienes cuenta?<a href="/login "> Inicia sesión</a></p>
+      {#if error}<p style="color:red">{error}</p>{/if}
+    </form>
+  </div>
+<style> 
+/*Css global(body)*/
+
+    :global(body){
+        padding: 0px;
+        margin: 0px;
+        background-color: rgba(53, 134, 134, 0.33);
+    }
+
+
+    div{
+      background-color: rgba(111, 111, 12, 0.218);
+        text-align: center;
+        padding: 30px;
+        font-family: 'Courier New', Courier, monospace;        
+        position:absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;        
+        border: 4px double rgb(5, 5, 5);
+        width: auto;
+        height: auto;      
+        
+    }   
+div button{
+  background-color: rgba(75, 82, 175, 0.66);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  border: 3px solid black;
+  padding: 5px  30px;
+}
+
+    /*Css formulario*/
+    form {
+  display: flex;
+  flex-direction: column; 
+  gap: 10px; 
+  align-items: center; /* Centra horizontalmente */
+}
+
+form input{
+
+  font-weight: bold;
+  padding: 5px;
+  font-size: large;
+}
+form h1{
+  font-size: 2em;
+}
+form p{
+  font-family: 'Courier New', Courier, monospace;
+
+}
+form a{
+  text-decoration: none;
+  color: teal;
+}
+
+
+
+
+
+
+</style>
