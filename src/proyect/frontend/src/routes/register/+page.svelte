@@ -5,8 +5,13 @@
   let email = '';
   let phone = '';
   let error = '';
-
+  //Imports imagenes
   import eyeIcon from '$lib/icons/eye.svg';
+  import background from '$lib/icons/background.jpg';
+  import favicon2 from '$lib/icons/favicon2.png';
+  import decorativo1 from '$lib/icons/decorativo1.webp';
+
+
 
   //Repeticion show password
   let showPassword= false;
@@ -35,6 +40,12 @@
     }
   }
 </script>
+  <!-- Imagenes de fondo y titulo-->
+<img src={favicon2} alt="favicon" class="favicon2">
+<p class="title">Remember It!?</p>
+<img src={decorativo1} alt="decorativo1" class="decorativo1">
+
+<img src={background} alt="background" class="fondo">
 
   <div>
     <form on:submit|preventDefault={handleRegister}>
@@ -55,18 +66,55 @@
     <img src={eyeIcon} alt="Mostrar contraseña" width="24" height="24" />
   </button>
       <button type="submit">Registrarse</button>
-      <p>¿Ya tienes cuenta?<a href="/login "> Inicia sesión</a></p>
+      <p class="text1">¿Ya tienes cuenta?<a href="/login "> Inicia sesión</a></p>
       {#if error}<p style="color:red">{error}</p>{/if}
     </form>
   </div>
 <style> 
-/*Css global(body)*/
+    /*Css global(body)*/
 
     :global(body){
         padding: 0px;
         margin: 0px;
-        background-color: rgba(53, 134, 134, 0.33);
+        background-color: rgba(85, 99, 99, 0.488);
+    } 
+
+    /*Img fondo de pantalla*/
+    .fondo{
+
+      width: 100%;
+      height: 100%; 
     }
+    
+    .favicon2{
+      width: 70px;
+      height: 70px; 
+      margin :10px;
+      position: fixed;
+      top: 0px;
+    }
+    /*Remember it!?*/
+    .title{
+      font-weight: bold;
+      position: fixed;
+      top: -10px;
+      font-size: xx-large;
+      left: 7%;
+      font-family: 'Courier New', Courier, monospace;
+      color: white;
+    } 
+
+    .text1{
+      font-weight: bold;
+      font-family: 'Courier New', Courier, monospace;
+      color: white;
+    }
+    .decorativo1{
+      position: fixed;
+      top: 10px;
+
+    }
+
 
 
     div{
@@ -80,9 +128,11 @@
         top: 50%;        
         border: 4px double rgb(5, 5, 5);
         width: auto;
-        height: auto;      
+        height: auto;  
+        border-radius: 15px ;    
         
     }   
+
 div button{
   background-color: rgba(75, 82, 175, 0.66);
   font-family: 'Courier New', Courier, monospace;
@@ -95,15 +145,17 @@ div button{
     form {
   display: flex;
   flex-direction: column; 
-  gap: 10px; 
+  gap: 15px; 
   align-items: center; /* Centra horizontalmente */
 }
+
 
 form input{
 
   font-weight: bold;
   padding: 5px;
   font-size: large;
+  border: 3px solid black;
 }
 form h1{
   font-size: 2em;
