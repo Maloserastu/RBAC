@@ -5,6 +5,8 @@
   let error = '';
   let showPassword = false; //contraseña comienza escondida
 
+  import eyeIcon from '$lib/icons/eye.svg';
+
 
   function togglePassword() {  //funcion para mostrar
     showPassword = !showPassword;
@@ -47,8 +49,16 @@
 <form on:submit|preventDefault={handleLogin}>  <!-- Evita que se recarge la pagina y llama a la funcion handlelogin-->
     <h1>Login</h1>
   <input type="text" placeholder="Username" bind:value={username} required />
-  <input type={showPassword ? "text" : "password"} placeholder="Password" bind:value={password} required /> 
+  <input type={showPassword ? "text" : "password"} placeholder="Password" bind:value={password} required  /> 
   <!--pregunta a la funcion mostrar contraseña si debe ser mostrada o no-->
+  
+  
+<!-- Botón con imagen para mostrar/ocultar contraseña -->
+
+  <button type="button" on:click={togglePassword} class="bteye" >
+    <img src={eyeIcon} alt="Mostrar contraseña" width="24" height="24" />
+  </button>
+
   
 
     
@@ -119,8 +129,20 @@ form a{
   color: teal;
 }
 
-
-
+/*CSS ojo mostrar contraseña*/
+/**style="background: none; border: none; cursor: pointer;"*/
+.bteye{
+  background: none;
+  border: none;
+  cursor:pointer;
+  position: fixed;
+  top: 50%;
+  right: 10%;
+}
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
 
 
 
