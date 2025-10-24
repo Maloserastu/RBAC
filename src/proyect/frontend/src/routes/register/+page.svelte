@@ -6,6 +6,8 @@
   let phone = '';
   let error = '';
 
+  import eyeIcon from '$lib/icons/eye.svg';
+
   //Repeticion show password
   let showPassword= false;
   function togglePassword() {  //funcion para mostrar
@@ -41,7 +43,17 @@
       <input type="email" placeholder="Email" bind:value={email} required />
       <input type="text" placeholder="Phone" bind:value={phone} required />
       <input type={showPassword ? "text" : "password"} placeholder="Password" bind:value={password} required />
+      <!-- Botón con imagen para mostrar/ocultar contraseña -->
+
+  <button type="button" on:click={togglePassword} class="bteye" >
+    <img src={eyeIcon} alt="Mostrar contraseña" width="24" height="24" />
+  </button>
       <input type={showPassword ? "text" : "password"} placeholder="RepeatPassword" bind:value={password} required />
+      <!-- Botón con imagen para mostrar/ocultar contraseña -->
+
+  <button type="button" on:click={togglePassword} class="bteye2" >
+    <img src={eyeIcon} alt="Mostrar contraseña" width="24" height="24" />
+  </button>
       <button type="submit">Registrarse</button>
       <p>¿Ya tienes cuenta?<a href="/login "> Inicia sesión</a></p>
       {#if error}<p style="color:red">{error}</p>{/if}
@@ -107,7 +119,28 @@ form a{
 
 
 
-
+/*CSS ojo mostrar contraseña*/
+/**style="background: none; border: none; cursor: pointer;"*/
+.bteye{
+  background: none;
+  border: none;
+  cursor:pointer;
+  position: fixed;
+  top: 54%;
+  right: 10%;
+}
+.bteye2{
+  background: none;
+  border: none;
+  cursor:pointer;
+  position: fixed;
+  top: 64%;
+  right: 10%;
+}
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
 
 
 </style>
