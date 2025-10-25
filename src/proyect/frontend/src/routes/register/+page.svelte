@@ -7,9 +7,11 @@
   let error = '';
   //Imports imagenes
   import eyeIcon from '$lib/icons/eye.svg';
-  import background from '$lib/icons/background.jpg';
-  import favicon2 from '$lib/icons/favicon2.png';
-  import decorativo1 from '$lib/icons/decorativo1.webp';
+  import background from '$lib/icons/background.png';
+  import favicon2 from '$lib/icons/flaterig.webp';
+  import decorativo2 from '$lib/icons/decorativo2.png';
+
+
 
 
 
@@ -43,13 +45,16 @@
   <!-- Imagenes de fondo y titulo-->
 <img src={favicon2} alt="favicon" class="favicon2">
 <p class="title">Remember It!?</p>
-<img src={decorativo1} alt="decorativo1" class="decorativo1">
+<img src={decorativo2} alt="bordes" class="decorativo2" >
+<img src={decorativo2} alt="bordes" class="decorativo3" >
+
+
 
 <img src={background} alt="background" class="fondo">
 
   <div>
     <form on:submit|preventDefault={handleRegister}>
-      <h1>Registro</h1>
+      <h1 class="titulo-registro">Registro</h1>
       <input type="text" placeholder="Username" bind:value={username} required />
       <input type="email" placeholder="Email" bind:value={email} required />
       <input type="text" placeholder="Phone" bind:value={phone} required />
@@ -65,8 +70,8 @@
   <button type="button" on:click={togglePassword} class="bteye2" >
     <img src={eyeIcon} alt="Mostrar contraseña" width="24" height="24" />
   </button>
-      <button type="submit">Registrarse</button>
-      <p class="text1">¿Ya tienes cuenta?<a href="/login "> Inicia sesión</a></p>
+      <button type="submit" class="bt-register">Registrarse</button>
+      <p class="text1">¿Ya tienes cuenta?<a href="/login " class="link1"> Inicia sesión</a></p>
       {#if error}<p style="color:red">{error}</p>{/if}
     </form>
   </div>
@@ -81,9 +86,12 @@
 
     /*Img fondo de pantalla*/
     .fondo{
-
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%; 
+      z-index: -1; /*La mandamos al fondo*/
     }
     
     .favicon2{
@@ -92,6 +100,7 @@
       margin :10px;
       position: fixed;
       top: 0px;
+      border-radius: 50%;
     }
     /*Remember it!?*/
     .title{
@@ -103,22 +112,54 @@
       font-family: 'Courier New', Courier, monospace;
       color: white;
     } 
+    .titulo-registro{
+      color: white;
+    }
 
     .text1{
       font-weight: bold;
       font-family: 'Courier New', Courier, monospace;
       color: white;
+      display: flex;
+      flex-direction: column;
     }
-    .decorativo1{
+    .link1{
+      padding-top: 15px;
+    }
+    /*Bordes y decoraciones*/
+    
+  
+    .decorativo2{
       position: fixed;
-      top: 10px;
+      top: 60px;
+      right: 685px;
+      width: 500px;
+      
 
     }
+    .decorativo3{
+      position: fixed;
+      top: 600px;
+      right: 685px;
+      width: 500px;    
+    }
+    .bt-register{
+      border: none;
+      font-size: large;
+      background: none;
+      color: teal;
+      border-radius: 10px;
+      width: 150px;
+      padding: 0%;
+      height: 25px;
+      text-align: center;
+    }
+    
 
 
 
     div{
-      background-color: rgba(111, 111, 12, 0.218);
+
         text-align: center;
         padding: 30px;
         font-family: 'Courier New', Courier, monospace;        
@@ -126,7 +167,6 @@
         transform: translate(-50%, -50%);
         left: 50%;
         top: 50%;        
-        border: 4px double rgb(5, 5, 5);
         width: auto;
         height: auto;  
         border-radius: 15px ;    
@@ -178,16 +218,16 @@ form a{
   border: none;
   cursor:pointer;
   position: fixed;
-  top: 54%;
-  right: 10%;
+  top: 52%;
+  right: 3%;
 }
 .bteye2{
   background: none;
   border: none;
   cursor:pointer;
   position: fixed;
-  top: 64%;
-  right: 10%;
+  top: 61%;
+  right: 3%;
 }
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {

@@ -6,6 +6,9 @@
   let showPassword = false; //contraseña comienza escondida
 
   import eyeIcon from '$lib/icons/eye.svg';
+  import background from '$lib/icons/background.png';
+  import favicon2 from '$lib/icons/flaterig.webp';
+  import decorativo2 from '$lib/icons/decorativo2.png';
 
 
   function togglePassword() {  //funcion para mostrar
@@ -42,12 +45,20 @@
     }
   }
 </script>
+<!-- Imagenes de fondo y titulo-->
+<img src={favicon2} alt="favicon" class="favicon2">
+<p class="title">Remember It!?</p>
+<img src={decorativo2} alt="bordes" class="decorativo2" >
+<img src={decorativo2} alt="bordes" class="decorativo3" >
+<img src={background} alt="background" class="fondo">
+
+
 
 <!-- Formulario del login-->
 
 <div>
 <form on:submit|preventDefault={handleLogin}>  <!-- Evita que se recarge la pagina y llama a la funcion handlelogin-->
-    <h1>Login</h1>
+    <h1 class="titulo-login">Login</h1>
   <input type="text" placeholder="Username" bind:value={username} required />
   <input type={showPassword ? "text" : "password"} placeholder="Password" bind:value={password} required  /> 
   <!--pregunta a la funcion mostrar contraseña si debe ser mostrada o no-->
@@ -62,8 +73,8 @@
   
 
     
-  <button type="submit">Entrar</button>
-  <p>¿No tienes cuenta? <a href="/register">Registrarse</a></p>
+  <button type="submit" class="bt-login">Entrar</button>
+  <p class="text1">¿No tienes cuenta? <a href="/register" class="link1">Registrarse</a></p>
 </form>
 </div>
 {#if error}
@@ -82,7 +93,8 @@
 
 
     div{
-      background-color: rgba(111, 111, 12, 0.218);
+        /*background-color: rgb(111, 111, 12);*/
+
         text-align: center;
         padding: 30px;
         font-family: 'Courier New', Courier, monospace;        
@@ -90,11 +102,11 @@
         transform: translate(-50%, -50%);
         left: 50%;
         top: 50%;        
-        border: 4px double rgb(5, 5, 5);
         width: auto;
-        height: auto;      
+        height: auto;  
+        border-radius: 15px ;    
         
-    }   
+    } 
 div button{
   background-color: rgba(75, 82, 175, 0.66);
   font-family: 'Courier New', Courier, monospace;
@@ -102,6 +114,76 @@ div button{
   border: 3px solid black;
   padding: 5px  30px;
 }
+/*Img fondo de pantalla*/
+    .fondo{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%; 
+      z-index: -1; /*La mandamos al fondo*/
+    }
+    
+    .favicon2{
+      width: 70px;
+      height: 70px; 
+      margin :10px;
+      position: fixed;
+      top: 0px;
+      border-radius: 50%;
+    }
+/*Remember it!?*/
+    .title{
+      font-weight: bold;
+      position: fixed;
+      top: -10px;
+      font-size: xx-large;
+      left: 7%;
+      font-family: 'Courier New', Courier, monospace;
+      color: white;
+    } 
+    .titulo-login{
+      color: white;
+    }
+
+    .text1{
+      font-weight: bold;
+      font-family: 'Courier New', Courier, monospace;
+      color: white;
+      display: flex;
+      flex-direction: column;
+    }
+    .link1{
+      padding-top: 15px;
+    }
+    /*Bordes y decoraciones*/
+    
+  
+    .decorativo2{
+      position: fixed;
+      top: 150px;
+      right: 685px;
+      width: 500px;
+      
+
+    }
+    .decorativo3{
+      position: fixed;
+      top: 500px;
+      right: 685px;
+      width: 500px;    
+    }
+    .bt-login{
+      border: none;
+      font-size: large;
+      background: none;
+      color: teal;
+      border-radius: 10px;
+      width: 150px;
+      padding: 0%;
+      height: 25px;
+      text-align: center;
+    }
 
     /*Css formulario*/
     form {
@@ -136,8 +218,8 @@ form a{
   border: none;
   cursor:pointer;
   position: fixed;
-  top: 50%;
-  right: 10%;
+  top: 46%;
+  right: 5%;
 }
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
