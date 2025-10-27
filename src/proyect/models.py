@@ -29,7 +29,6 @@ class User (Base):
     #Relaciones
 
     estadisticas = relationship("Estadisticas", back_populates="usuario", uselist=False)
-    categorias = relationship("Categorias", back_populates="usuario")
 
 
 #Tabla estadisticas
@@ -52,11 +51,8 @@ class Categorias(Base):
     id_categoria = Column(Integer, primary_key=True, index=True)
     nombre = Column(String, nullable=False)
     descripcion = Column(String)
-    id_plantilla = Column(Integer, ForeignKey("plantilla.id_campo"))
-    id_usuario_creador = Column(SQLUUID(as_uuid=True), ForeignKey("usuarios.id_usuario"))
 
     #Relaciones
-    usuario = relationship("User", back_populates="categorias")
     plantilla = relationship("Plantilla", back_populates="categoria")
     datos = relationship("Datos", back_populates="categoria")
     
@@ -66,10 +62,11 @@ class Plantilla(Base):
     __tablename__ = "plantilla"
 
     id_campo = Column(Integer, primary_key=True, index=True)
-    id_plantilla = Column(Integer, ForeignKey("categorias.id_categoria"))
+    id_categoria = Column(Integer, ForeignKey("categorias.id_categoria"))
     nombre_campo = Column(String, nullable=False)
     tipo_campo = Column(String, nullable=False)
 
+    #Relaciones
     categoria = relationship("Categorias", back_populates="plantilla")
     datos = relationship("Datos", back_populates="plantilla")
 
@@ -80,8 +77,10 @@ class Datos(Base):
 
     id_registro = Column(Integer, primary_key=True, index=True)
     id_plantilla = Column(Integer, ForeignKey("plantilla.id_campo"))
+    id_categoria = Column(Integer, ForeignKey("categorias.id_categoria"))
     valores_json = Column(JSON, nullable=False)
 
+    #Relaciones
     plantilla = relationship("Plantilla", back_populates="datos")
     categoria = relationship("Categorias", back_populates="datos")
 
