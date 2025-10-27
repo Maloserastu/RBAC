@@ -45,14 +45,14 @@
   <!-- Imagenes de fondo y titulo-->
 <img src={favicon2} alt="favicon" class="favicon2">
 <p class="title">Remember It!?</p>
-<img src={decorativo2} alt="bordes" class="decorativo2" >
-<img src={decorativo2} alt="bordes" class="decorativo3" >
 
 
 
 <img src={background} alt="background" class="fondo">
 
   <div>
+    <img src={decorativo2} alt="bordes" class="decorativo2" >
+
     <form on:submit|preventDefault={handleRegister}>
       <h1 class="titulo-registro">Registro</h1>
       <input type="text" placeholder="Username" bind:value={username} required />
@@ -73,6 +73,8 @@
       <button type="submit" class="bt-register">Registrarse</button>
       <p class="text1">¿Ya tienes cuenta?<a href="/login " class="link1"> Inicia sesión</a></p>
       {#if error}<p style="color:red">{error}</p>{/if}
+      <img src={decorativo2} alt="bordes" class="decorativo3" >
+
     </form>
   </div>
 <style> 
@@ -82,6 +84,8 @@
         padding: 0px;
         margin: 0px;
         background-color: rgba(85, 99, 99, 0.488);
+        overflow: hidden; /* <-- evita scroll vertical */
+
     } 
 
     /*Img fondo de pantalla*/
@@ -130,18 +134,20 @@
     
   
     .decorativo2{
-      position: fixed;
-      top: 60px;
-      right: 685px;
+      position: relative;
+      top: 150px;
+      right: -20px;
       width: 500px;
-      
+      pointer-events: none; /*Evita que el botón interfiera con el input de contraseña*/
 
     }
     .decorativo3{
-      position: fixed;
-      top: 600px;
-      right: 685px;
-      width: 500px;    
+      position: relative;
+      top: -150px;
+      right: -20px;
+      width: 500px;
+      pointer-events: none; /*Evita que el botón interfiera con el input de contraseña*/
+
     }
     .bt-register{
       border: none;
@@ -218,16 +224,16 @@ form a{
   border: none;
   cursor:pointer;
   position: fixed;
-  top: 52%;
-  right: 3%;
+  top: 50.5%;
+  right: 25%;
 }
 .bteye2{
   background: none;
   border: none;
   cursor:pointer;
   position: fixed;
-  top: 61%;
-  right: 3%;
+  top: 54.5%;
+  right: 25%;
 }
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {

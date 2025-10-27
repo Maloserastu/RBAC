@@ -48,8 +48,6 @@
 <!-- Imagenes de fondo y titulo-->
 <img src={favicon2} alt="favicon" class="favicon2">
 <p class="title">Remember It!?</p>
-<img src={decorativo2} alt="bordes" class="decorativo2" >
-<img src={decorativo2} alt="bordes" class="decorativo3" >
 <img src={background} alt="background" class="fondo">
 
 
@@ -57,7 +55,10 @@
 <!-- Formulario del login-->
 
 <div>
+  
+
 <form on:submit|preventDefault={handleLogin}>  <!-- Evita que se recarge la pagina y llama a la funcion handlelogin-->
+  <img src={decorativo2} alt="bordes" class="decorativo2" >
     <h1 class="titulo-login">Login</h1>
   <input type="text" placeholder="Username" bind:value={username} required />
   <input type={showPassword ? "text" : "password"} placeholder="Password" bind:value={password} required  /> 
@@ -75,6 +76,8 @@
     
   <button type="submit" class="bt-login">Entrar</button>
   <p class="text1">¿No tienes cuenta? <a href="/register" class="link1">Registrarse</a></p>
+    <img src={decorativo2} alt="bordes" class="decorativo3" >
+
 </form>
 </div>
 {#if error}
@@ -89,6 +92,8 @@
         padding: 0px;
         margin: 0px;
         background-color: rgba(53, 134, 134, 0.33);
+        overflow: hidden; /* <-- evita scroll vertical */
+
     }
 
 
@@ -160,19 +165,23 @@ div button{
     
   
     .decorativo2{
-      position: fixed;
+      position: relative;
       top: 150px;
-      right: 685px;
+      right: -25px;
       width: 500px;
+      pointer-events: none; /*Evita que el botón interfiera con el input de contraseña*/
+
       
       
 
     }
     .decorativo3{
-      position: fixed;
-      top: 500px;
-      right: 685px;
-      width: 500px;    
+      position: relative;
+      top: -150px;
+      right: -25px;
+      width: 500px;   
+      pointer-events: none; /*Evita que el botón interfiera con el input de contraseña*/
+ 
     }
     .bt-login{
       border: none;
@@ -219,8 +228,8 @@ form a{
   border: none;
   cursor:pointer;
   position: fixed;
-  top: 46%;
-  right: 5%;
+  top: 48.5%;
+  right: 25%;
 }
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
