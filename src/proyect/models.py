@@ -23,7 +23,7 @@ class User (Base):
     created_at = Column(DateTime, default=datetime.now) #Campos de auditoría
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)#Campos de auditoría
 
-    rol = Column(String, default="usuario")
+    rol = Column(String, default = "usuario", nullable=False)  # admin, manager y user
     id_categoria_activa = Column(Integer, ForeignKey("categorias.id_categoria"), nullable=True)
 
     #Relaciones

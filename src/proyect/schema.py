@@ -36,6 +36,8 @@ class UserResponse(BaseModel): #Tambien se puede llamar UserOut
         orm_mode = True # Permite que Pydantic trabaje con objetos ORM como los de SQLAlchemy
 
 #estadistiacas
+
+#Datos base de la tabla estadisticas
 class EstadisticasBase(BaseModel):
     aciertos: int = 0
     fallos: int = 0

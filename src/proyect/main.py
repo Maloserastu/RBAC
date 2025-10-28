@@ -6,6 +6,8 @@ from .models import User
 from .schema import UserCreate, UserUpdate, UserResponse
 from uuid import UUID
 
+from .rbac import require_admin, require_manager_or_admin , require_user #Traer dependencias del rbac.py
+
 app = FastAPI()
 
 
@@ -44,7 +46,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # O mejor, especifica tu frontend: ["http://localhost:5173"]
+    allow_origins=["*"],  # O especificar el frontend: ["http://localhost:5173"], dejo * por si acaso
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -67,7 +69,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()): #depends para recib
         user = session.query(User).filter(User.username == form_data.username).first()
         if not user or not verify_password(form_data.password, str(user.hashed_password)):
             raise HTTPException(status_code=401, detail="Credenciales incorrectas")
-    access_token = create_acces_token(data={"sub": str(user.id_usuario ), "username": user.username})
+        access_token = create_acces_token(data={"sub": str(user.id_usuario ),"rol": user.rol, "username": user.username})#crear rol tambien
     return {"access_token": access_token, "token_type": "bearer"}
  
 
@@ -99,9 +101,11 @@ def register(user: UserCreate):
 
 #Añadir nuevos usuarios  CRUD - Create
 @app.post("/users/create_user", status_code=status.HTTP_201_CREATED, tags=["crud"])
-def create_user( user : UserCreate ):   #Validar con Pydantic el esquema UserCreate
+def create_user( user : UserCreate, current_user=Depends(require_manager_or_admin) ):   
+    # 1-Validar con Pydantic el esquema UserCreate 2- Comprobar que sea Admin el usuario
     with SessionLocal() as session:
-        new_user = User(username=user.username, email=user.email, phone=user.phone, hashed_password=hash_password(user.password))
+        
+
         #se guarda la contraseña hasheada
         if session.query(User).filter((User.username == user.username)).first():
             raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
@@ -111,10 +115,28 @@ def create_user( user : UserCreate ):   #Validar con Pydantic el esquema UserCre
             raise HTTPException(status_code=400, detail="El número de teléfono ingresado ya existe para otro usuario.")
         if len(user.phone) >= 9:
             raise HTTPException(status_code=400, detail="El teléfono debe tener menos de 9 dígitos")
+        
+        #Roles permitidos a crear
 
+        if current_user.rol == "manager":
+            final_role = "usuario"
+        elif current_user.rol == "admin":
+            final_role = user.rol or "usuario"
+        else:
+            raise HTTPException(status_code=403, detail="No tienes permiso para crear usuarios.")
+
+
+        #Despues de crear final_role se puede crear el usuario y darle el valor
+        new_user = User(
+        username=user.username,
+        email=user.email,
+        phone=user.phone,
+        hashed_password=hash_password(user.password),
+        rol=final_role
+        )
         session.add(new_user)
         session.commit()
-        session.refresh(new_user)
+        session.refresh(new_user) 
         return new_user
 
 #Leer los usuarios por nombre CRUD - Read
