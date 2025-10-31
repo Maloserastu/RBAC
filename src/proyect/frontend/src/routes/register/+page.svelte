@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   let username = '';
   let password = '';
   let email = '';
   let phone = '';
   let error = '';
+  let role = '';
   //Imports imagenes
   import eyeIcon from '$lib/icons/eye.svg';
   import background from '$lib/icons/background.png';
@@ -12,7 +14,39 @@
   import decorativo2 from '$lib/icons/decorativo2.png';
 
 
+//Protección de la página
+  onMount(async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      goto('/login');
+      return;
+    }
 
+    try {
+      const response = await fetch('http://localhost:8000/protected-data', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.status !== 200) {
+        localStorage.removeItem('token');
+        goto('/login');
+        return;
+      }
+
+      const data = await response.json();
+      role = data.rol;
+
+      // Si es usuario base, lo echamos
+      if (role === 'usuario') {
+        alert('No tienes permiso para acceder al registro.');
+        goto('/protected');
+        return;
+      }
+    } catch (err) {
+      console.error('Error verificando el acceso:', err);
+      goto('/login');
+    }
+  });
 
 
   //Repeticion show password
@@ -20,6 +54,7 @@
   function togglePassword() {  //funcion para mostrar
     showPassword = !showPassword;
   }
+  //Registro
   async function handleRegister() {
     error = '';
     try {
@@ -159,6 +194,8 @@
       padding: 0%;
       height: 25px;
       text-align: center;
+      cursor: pointer;
+
     }
     
 
