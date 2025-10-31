@@ -98,7 +98,6 @@
 
 
     div{
-        /*background-color: rgb(111, 111, 12);*/
 
         text-align: center;
         padding: 30px;
