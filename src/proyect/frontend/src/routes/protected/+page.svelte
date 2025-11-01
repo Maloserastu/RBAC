@@ -155,8 +155,8 @@
       .bienvenida{
         color: teal;
         position: fixed; 
-        top: 100px;
-        left: 600px;
+        top: 20%;
+        left: 40%;
         font-size: xx-large;
         font-family: 'Courier New', Courier, monospace;
         font-weight: bolder;
@@ -164,8 +164,8 @@
       }
       .logout-button{
         position: fixed;
-        bottom: 190px;
-        right: 660px;
+        bottom: 30%;
+        right: 45%;
         font-size: large;
         background: none;
         color: white;
