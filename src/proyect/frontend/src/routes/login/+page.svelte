@@ -192,6 +192,8 @@ div button{
       padding: 0%;
       height: 25px;
       text-align: center;
+      cursor: pointer;
+
     }
 
     /*Css formulario*/

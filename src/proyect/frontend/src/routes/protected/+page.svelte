@@ -129,7 +129,8 @@
    
     .menu button{
       margin: 15px;
-      
+      cursor: pointer;
+
       border: none;
       font-size: large;
       background: white;
