@@ -59,7 +59,7 @@ FIN
 
 @app.get("/protected-data", tags=["login"])
 def get_protected_data(current_user: User = Depends(get_current_user)):
-    return {"username":current_user.username }
+    return {"username":current_user.username , "rol" : current_user.rol}
 #
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")#crea el authorize 
 
@@ -72,7 +72,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()): #depends para recib
         access_token = create_acces_token(data={"sub": str(user.id_usuario ),"rol": user.rol, "username": user.username})#crear rol tambien
     return {"access_token": access_token, "token_type": "bearer"}
  
-
+"""
 @app.post("/register", status_code=status.HTTP_201_CREATED, tags=["login"], response_model=UserResponse)
 def register(user: UserCreate):
     with SessionLocal() as session:
@@ -96,7 +96,7 @@ def register(user: UserCreate):
         session.refresh(new_user)
         return new_user
 
-
+"""
 
 
 #Añadir nuevos usuarios  CRUD - Create
